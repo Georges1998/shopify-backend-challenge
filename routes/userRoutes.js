@@ -1,0 +1,10 @@
+module.exports = function (app) {
+  var userController = require("../controllers/userController");
+
+  app
+    .route("/user")
+    .get(userController.get_all_users)
+    .post(userController.create_user);
+
+  app.route("/user/:id").post(userController.add_new_image);
+};

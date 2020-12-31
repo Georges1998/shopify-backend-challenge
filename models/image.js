@@ -1,30 +1,34 @@
 const mongoose = require("mongoose");
 
-
 const imageSchema = new mongoose.Schema({
   title: {
     type: String,
-    required: true,
+    required: [true, "title is required"],
     trim: true,
   },
   price: {
     type: Number,
-    required: true,
     default: 0,
-    min: [0, "Price must be positive"],
+    min: [0, "price must be positive"],
   },
   url: {
     type: String,
-    required: true,
+    required: [true, "url is required"],
     trim: true,
   },
-  purshased:{
-      type: Boolean,
-      default: false,
+  purshased: {
+    type: Boolean,
+    default: false,
+  },
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
   },
   discount: Number,
-  purshasedBy: String,
+  purshasedBy: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  },
 });
 
 module.exports = mongoose.model("Image", imageSchema);
-

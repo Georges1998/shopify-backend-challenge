@@ -1,7 +1,10 @@
 var mongoose = require("mongoose"),
-  Image = mongoose.model("Image");
+  Image = mongoose.model("Image"),
+  User = mongoose.model("User");
 
 exports.get_all_images = function (req, res, next) {
+  const { user } = req.query;
+  console.log(user);
   Image.find({}, function (err, images) {
     if (err) {
       res.send(err);
@@ -10,10 +13,23 @@ exports.get_all_images = function (req, res, next) {
   });
 };
 
+/*
+get all images for a specific user
+@param {UserId}
+*/
+exports.get_all_images_by_user_id = async function (req, res, next) {
+  await User.findById(req.params.id)
+    .populate("images")
+    .exec((err, im) => {
+      res.send(im.images);
+    });
+};
+
+/*
+@body {Image}
+*/
 exports.upload_image = function (req, res, next) {
   var new_image = new Image(req.body);
-  console.log(req.body);
-  console.log(new_image);
   new_image.save(function (err, image) {
     if (err) {
       res.send(err);

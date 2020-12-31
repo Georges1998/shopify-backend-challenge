@@ -1,9 +1,10 @@
-var express = require('express'),
+var express = require("express"),
   app = express(),
   port = process.env.PORT || 3000,
-  mongoose = require('mongoose'),
-  Image = require('./models/image'), //created model loading here
-  bodyParser = require('body-parser');
+  mongoose = require("mongoose"),
+  Image = require("./models/image"), //created model loading here
+  User = require("./models/user"), //created model loading here
+  bodyParser = require("body-parser");
 
 mongoose.Promise = global.Promise;
 mongoose
@@ -15,11 +16,13 @@ mongoose
     console.log("ERROR: " + err);
   });
 
-  app.use(bodyParser.urlencoded({extended: true}))
-  app.use(bodyParser.json());
-  var routes = require('./routes/imageRoutes');
-  routes(app);
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+var routes = require("./routes/imageRoutes");
+var routes2 = require("./routes/userRoutes");
+routes2(app);
+routes(app);
 
-  app.listen(port);
+app.listen(port);
 
-  console.log('app listening on port ' + port)
+console.log("app listening on port " + port);
