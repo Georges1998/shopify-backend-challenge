@@ -1,0 +1,25 @@
+var express = require('express'),
+  app = express(),
+  port = process.env.PORT || 3000,
+  mongoose = require('mongoose'),
+  Image = require('./models/image'), //created model loading here
+  bodyParser = require('body-parser');
+
+mongoose.Promise = global.Promise;
+mongoose
+  .connect("mongodb://localhost:27017/movieApp", { useNewUrlParser: true })
+  .then(() => {
+    console.log("CONNECTION OPENED");
+  })
+  .catch((err) => {
+    console.log("ERROR: " + err);
+  });
+
+  app.use(bodyParser.urlencoded({extended: true}))
+  app.use(bodyParser.json());
+  var routes = require('./routes/imageRoutes');
+  routes(app);
+
+  app.listen(port);
+
+  console.log('app listening on port ' + port)
