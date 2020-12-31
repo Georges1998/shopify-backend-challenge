@@ -7,4 +7,6 @@ module.exports = function (app) {
     .post(userController.create_user);
 
   app.route("/user/:id").post(userController.add_new_image);
+
+  app.route("/login").post(userController.login);
 };
