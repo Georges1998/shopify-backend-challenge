@@ -7,9 +7,11 @@ exports.get_all_images = function (req, res, next) {
   console.log(user);
   Image.find({}, function (err, images) {
     if (err) {
+      res.status(400);
       res.send(err);
     }
-    res.json(images);
+    res.status(200);
+    res.send(images);
   });
 };
 
@@ -21,6 +23,7 @@ exports.get_all_images_by_user_id = async function (req, res, next) {
   await User.findById(req.params.id)
     .populate("images")
     .exec((err, im) => {
+      res.status(200);
       res.send(im.images);
     });
 };
@@ -32,8 +35,10 @@ exports.upload_image = function (req, res, next) {
   var new_image = new Image(req.body);
   new_image.save(function (err, image) {
     if (err) {
+      res.status(400);
       res.send(err);
     }
+    res.status(201);
     res.json(image);
   });
 };

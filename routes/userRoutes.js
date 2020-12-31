@@ -9,4 +9,5 @@ module.exports = function (app) {
   app.route("/user/:id").post(userController.add_new_image);
 
   app.route("/login").post(userController.login);
+  app.route("/logout").post(userController.logout);
 };

@@ -5,12 +5,19 @@ var mongoose = require("mongoose"),
   Image = mongoose.model("Image");
 
 exports.get_all_users = function (req, res, next) {
-  User.find({}, function (err, users) {
-    if (err) {
-      res.send(err);
-    }
-    res.json(users);
-  });
+  if (!req.session.user_id) {
+    res.status(401);
+    res.send({ message: "unauthorized" });
+  } else {
+    User.find({}, function (err, users) {
+      if (err) {
+        res.status(400);
+        res.send(err);
+      }
+      res.status(200);
+      res.send(users);
+    });
+  }
 };
 
 /*
@@ -22,28 +29,42 @@ exports.create_user = async function (req, res, next) {
   req.body.password = hash;
   console.log(hash);
   var new_user = new User(req.body);
+  console.log(req.body);
+  console.log(new_user);
   new_user.save(function (err, user) {
     if (err) {
       res.send(err);
+    } else {
+      req.session.user_id = user._id;
+      res.send(user);
     }
-    res.send(user);
   });
 };
 
 exports.login = async function (req, res, next) {
   const { email, password } = req.body;
   const exists = await User.exists({ email });
+
   if (exists) {
-    const user = await User.find({ email });
-    const validPassword = bcrypt.compare(password, user.password);
-    if (validPassword) {
-      res.send("good");
+    const user = await User.findOne({ email });
+    const valid = await bcrypt.compare(password, user.password);
+
+    if (valid) {
+      req.session.user_id = user._id;
+      res.send(user);
     } else {
-      res.send("bad");
+      res.status(401);
+      res.send({ message: "unauthorized" });
     }
   } else {
-    res.send("bad");
+    res.status(401);
+    res.send({ message: "unauthorized" });
   }
+};
+
+exports.logout = async function (req, res, next) {
+  req.session.user_id = null;
+  res.send({ message: "loged out" });
 };
 
 exports.add_new_image = async function (req, res, next) {

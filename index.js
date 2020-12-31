@@ -1,3 +1,6 @@
+const session = require("express-session");
+var cors = require("cors");
+
 var express = require("express"),
   app = express(),
   port = process.env.PORT || 3000,
@@ -15,6 +18,14 @@ mongoose
   .catch((err) => {
     console.log("ERROR: " + err);
   });
+
+app.use(cors());
+
+app.use(
+  session({
+    secret: "notagoodsecret",
+  })
+);
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
