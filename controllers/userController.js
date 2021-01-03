@@ -5,20 +5,20 @@ var mongoose = require("mongoose"),
   Image = mongoose.model("Image");
 
 exports.get_all_users = function (req, res, next) {
-  if (!req.session.user_id) {
-    res.status(401);
-    res.send({ message: "unauthorized" });
-  } else {
-    User.find({}, function (err, users) {
-      if (err) {
-        res.status(400);
-        res.send(err);
-      }
-      res.status(200);
-      res.send(users);
-    });
-  }
+  // if (!req.isAuthenticated()) {
+  //   res.status(401);
+  //   res.send({ message: "unauthorized" });
+  // } else {
+  User.find({}, function (err, users) {
+    if (err) {
+      res.status(400);
+      res.send(err);
+    }
+    res.status(200);
+    res.send(users);
+  });
 };
+// };
 
 /*
 @body {User}
@@ -27,10 +27,7 @@ exports.create_user = async function (req, res, next) {
   const { password } = req.body;
   const hash = await bcrypt.hash(password, 12);
   req.body.password = hash;
-  console.log(hash);
   var new_user = new User(req.body);
-  console.log(req.body);
-  console.log(new_user);
   new_user.save(function (err, user) {
     if (err) {
       res.send(err);
@@ -68,6 +65,7 @@ exports.logout = async function (req, res, next) {
 };
 
 exports.add_new_image = async function (req, res, next) {
+  console.log(req);
   const user = await User.findById(req.params.id);
   const image = new Image(req.body);
   image.user = user;

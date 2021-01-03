@@ -11,7 +11,7 @@ var express = require("express"),
 
 mongoose.Promise = global.Promise;
 mongoose
-  .connect("mongodb://localhost:27017/movieApp", { useNewUrlParser: true })
+  .connect("mongodb://localhost:27017/shopify", { useNewUrlParser: true })
   .then(() => {
     console.log("CONNECTION OPENED");
   })
@@ -19,7 +19,9 @@ mongoose
     console.log("ERROR: " + err);
   });
 
-app.use(cors());
+  app.use(cors({origin: [
+    "http://localhost:4200"
+  ], credentials: true}));
 
 app.use(
   session({

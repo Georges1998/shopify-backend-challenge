@@ -33,8 +33,9 @@ const userSchema = new mongoose.Schema({
       ref: "Image",
     },
   ],
-  purshased: [
+  purchased: [
     {
+      
       type: mongoose.Schema.Types.ObjectId,
       ref: "Image",
     },

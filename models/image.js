@@ -16,7 +16,7 @@ const imageSchema = new mongoose.Schema({
     required: [true, "url is required"],
     trim: true,
   },
-  purshased: {
+  purchased: {
     type: Boolean,
     default: false,
   },
