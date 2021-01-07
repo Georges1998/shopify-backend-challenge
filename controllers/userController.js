@@ -5,10 +5,6 @@ var mongoose = require("mongoose"),
   Image = mongoose.model("Image");
 
 exports.get_all_users = function (req, res, next) {
-  // if (!req.isAuthenticated()) {
-  //   res.status(401);
-  //   res.send({ message: "unauthorized" });
-  // } else {
   User.find({}, function (err, users) {
     if (err) {
       res.status(400);
@@ -17,6 +13,11 @@ exports.get_all_users = function (req, res, next) {
     res.status(200);
     res.send(users);
   });
+};
+
+exports.get_user_by_id = async function (req, res, next) {
+  const user = await User.findById(req.params.id);
+  res.send(user);
 };
 // };
 
@@ -65,7 +66,6 @@ exports.logout = async function (req, res, next) {
 };
 
 exports.add_new_image = async function (req, res, next) {
-  console.log(req);
   const user = await User.findById(req.params.id);
   const image = new Image(req.body);
   image.user = user;
@@ -73,4 +73,32 @@ exports.add_new_image = async function (req, res, next) {
   await user.save();
   await image.save();
   res.send(user);
+};
+
+exports.buy_image = async function (req, res) {
+  const user = await User.findById(req.params.id);
+  const image = await Image.findById(req.params.imageid);
+  console.log(image);
+
+  const imagePrice = image.price;
+  if (imagePrice <= user.credit && !image.purchased) {
+    // upadte seller credit
+    await User.findByIdAndUpdate(image.user, {
+      credit: user.credit + imagePrice - image.discount,
+    });
+
+    image.purchasedBy = user;
+    image.purchased = true;
+    user.purchased.push(image);
+    user.credit = user.credit - imagePrice + image.discount;
+
+    await user.save();
+    await image.save();
+    res.send({ message: "You just bought an image!", user: user });
+  } else {
+    res.send({
+      message:
+        "Cannot sell or buy this image at the moment: Check your balance",
+    });
+  }
 };

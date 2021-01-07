@@ -10,6 +10,7 @@ var express = require("express"),
   bodyParser = require("body-parser");
 
 mongoose.Promise = global.Promise;
+mongoose.set('useFindAndModify', false);
 mongoose
   .connect("mongodb://localhost:27017/shopify", { useNewUrlParser: true })
   .then(() => {

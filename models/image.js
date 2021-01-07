@@ -25,9 +25,13 @@ const imageSchema = new mongoose.Schema({
     ref: "User",
   },
   discount: Number,
-  purshasedBy: {
+  purchasedBy: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
+  },
+  deleted: {
+    type: Boolean,
+    default: false,
   },
 });
 
