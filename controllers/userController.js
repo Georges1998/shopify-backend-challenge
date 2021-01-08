@@ -19,7 +19,6 @@ exports.get_user_by_id = async function (req, res, next) {
   const user = await User.findById(req.params.id);
   res.send(user);
 };
-// };
 
 /*
 @body {User}

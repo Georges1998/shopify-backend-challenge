@@ -12,7 +12,7 @@ var express = require("express"),
 mongoose.Promise = global.Promise;
 mongoose.set('useFindAndModify', false);
 mongoose
-  .connect("mongodb://localhost:27017/shopify", { useNewUrlParser: true })
+  .connect(process.env.MONGODB_URI || "mongodb://localhost:27017/shopify" , { useNewUrlParser: true })
   .then(() => {
     console.log("CONNECTION OPENED");
   })
