@@ -10,9 +10,11 @@ var express = require("express"),
   bodyParser = require("body-parser");
 
 mongoose.Promise = global.Promise;
-mongoose.set('useFindAndModify', false);
+mongoose.set("useFindAndModify", false);
 mongoose
-  .connect(process.env.DB_URL || "mongodb://localhost:27017/shopify" , { useNewUrlParser: true })
+  .connect(process.env.DB_URL || "mongodb://localhost:27017/shopify", {
+    useNewUrlParser: true,
+  })
   .then(() => {
     console.log("CONNECTION OPENED");
   })
@@ -20,9 +22,15 @@ mongoose
     console.log("ERROR: " + err);
   });
 
-  app.use(cors({origin: [
-    "https://sharp-hugle-4d2359.netlify.app"
-  ], credentials: true}));
+app.use(
+  cors({
+    origin: [
+      "https://sharp-hugle-4d2359.netlify.app",
+      "http://localhost:4200",
+    ],
+    credentials: true,
+  })
+);
 
 app.use(
   session({
