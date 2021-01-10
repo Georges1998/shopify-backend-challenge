@@ -24,9 +24,7 @@ mongoose
 
 app.use(
   cors({
-    origin: "https://sharp-hugle-4d2359.netlify.app/",
-    // "http://localhost:4200"
-
+    origin: ["https://sharp-hugle-4d2359.netlify.app", "http://localhost:4200"],
     credentials: true,
   })
 );
