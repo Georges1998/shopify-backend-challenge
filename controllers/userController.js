@@ -86,9 +86,7 @@ exports.buy_image = async function (req, res) {
 
   if (imagePrice <= user.credit && !image.purchased) {
     const user2 = await User.findById(image.user);
-    console.log(user2.credit);
-    console.log(imagePrice);
-    console.log(user2.credit);
+
     user2.credit = user2.credit + imagePrice;
 
     image.purchasedBy = user;
@@ -96,10 +94,8 @@ exports.buy_image = async function (req, res) {
 
     user.purchased.push(image);
     user.credit = user.credit - imagePrice;
+    await Promise.all([user.save(), user2.save(), image.save()]);
 
-    await user.save();
-    await user2.save();
-    await image.save();
     res.send({ message: "You just bought an image!", user: user });
   } else {
     res.send({
