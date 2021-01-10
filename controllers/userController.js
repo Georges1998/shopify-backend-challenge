@@ -75,23 +75,30 @@ exports.add_new_image = async function (req, res, next) {
 };
 
 exports.buy_image = async function (req, res) {
+  // get user
   const user = await User.findById(req.params.id);
-  const image = await Image.findById(req.params.imageid);
-  console.log(image);
 
-  const imagePrice = image.price;
+  // get image
+  const image = await Image.findById(req.params.imageid);
+
+  // calc price
+  const imagePrice = image.price - image.discount;
+
   if (imagePrice <= user.credit && !image.purchased) {
-    // upadte seller credit
-    await User.findByIdAndUpdate(image.user, {
-      credit: user.credit + imagePrice - image.discount,
-    });
+    const user2 = await User.findById(image.user);
+    console.log(user2.credit);
+    console.log(imagePrice);
+    console.log(user2.credit);
+    user2.credit = user2.credit + imagePrice;
 
     image.purchasedBy = user;
     image.purchased = true;
+
     user.purchased.push(image);
-    user.credit = user.credit - imagePrice + image.discount;
+    user.credit = user.credit - imagePrice;
 
     await user.save();
+    await user2.save();
     await image.save();
     res.send({ message: "You just bought an image!", user: user });
   } else {
