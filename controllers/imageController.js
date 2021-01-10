@@ -61,9 +61,9 @@ exports.get_all_purchased_images_by_user_id = async function (req, res, next) {
 /*
 @body {Image}
 */
-exports.upload_image = async function (req, res, next) {
+exports.upload_image = function (req, res, next) {
   const new_image = new Image(req.body);
-  await new_image.save(function (err, image) {
+  new_image.save(function (err, image) {
     res.send(image);
   });
 };
