@@ -64,18 +64,16 @@ exports.get_all_purchased_images_by_user_id = async function (req, res, next) {
 exports.upload_image = async function (req, res, next) {
   const new_image = new Image(req.body);
   await new_image.save(function (err, image) {
-    if (err) {
-      res.status(400);
-      res.send(err);
-    }
-    res.status(201);
     res.send(image);
   });
 };
 
 exports.edit_image = async function (req, res, next) {
- 
-  if (req.body.price > req.body.discount && req.body.price >= 0 && req.body.discount>=0) {
+  if (
+    req.body.price > req.body.discount &&
+    req.body.price >= 0 &&
+    req.body.discount >= 0
+  ) {
     const new_image = await Image.findByIdAndUpdate(req.params.id, req.body);
     console.log(new_image);
     await new_image.save();
