@@ -70,8 +70,7 @@ exports.add_new_image = async function (req, res, next) {
   const image = new Image(req.body);
   image.user = user;
   user.images.push(image);
-  await user.save();
-  await image.save();
+  await Promise.all([user.save(), image.save()]);
   res.send(user);
 };
 
