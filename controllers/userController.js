@@ -71,7 +71,7 @@ exports.add_new_image = async function (req, res, next) {
   image.user = user;
   user.images.push(image);
   await Promise.all([user.save(), image.save()]);
-  res.send(user);
+  res.send({ message: "Success" });
 };
 
 exports.buy_image = async function (req, res) {
