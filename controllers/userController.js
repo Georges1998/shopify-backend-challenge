@@ -28,6 +28,7 @@ exports.create_user = async function (req, res, next) {
   const hash = await bcrypt.hash(password, 12);
   req.body.password = hash;
   var new_user = new User(req.body);
+  new_user.createdAt = Date.now();
   new_user.save(function (err, user) {
     if (err) {
       res.send(err);

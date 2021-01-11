@@ -23,6 +23,9 @@ const userSchema = new mongoose.Schema({
     required: [true, "lastName is required"],
     trim: true,
   },
+  createdAt: {
+    type: Date,
+  },
   credit: {
     type: Number,
     default: 200,
@@ -35,7 +38,6 @@ const userSchema = new mongoose.Schema({
   ],
   purchased: [
     {
-      
       type: mongoose.Schema.Types.ObjectId,
       ref: "Image",
     },
