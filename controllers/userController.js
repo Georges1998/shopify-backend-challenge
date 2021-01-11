@@ -96,7 +96,9 @@ exports.buy_image = async function (req, res) {
     user.credit = user.credit - imagePrice;
     await Promise.all([user.save(), user2.save(), image.save()]);
 
-    res.send({ message: "You just bought an image!", user: user });
+    res.send({
+      message: "You just bought an image! Check your Purchased Images",
+    });
   } else {
     res.send({
       message:
