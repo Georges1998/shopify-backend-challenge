@@ -33,7 +33,7 @@ Hosted by Netlify: [Demo](https://sharp-hugle-4d2359.netlify.app/)
 9. snack bar for notifications. 
 
 
-[frondend Repo](https://github.com/Georges1998/Shopify-UXIntern-Summer2021)
+[frontend Repo](https://github.com/Georges1998/Shopify-UXIntern-Summer2021)
 
 
 ## Development server
@@ -90,6 +90,24 @@ mongo
 ```bash
 node index.js
 ```
+
+## Routes
+
+|    URL               | Method |                     Description                      |  body. |
+|:--------------------:|:------:|:----------------------------------------------------:|:------:|
+| `/purchased/:id`     | `GET`  |   Get all purchased images for a user                |        |
+| `/random/:id`        | `GET`  |   Get 10 random images for a user to buy             |        |
+| `/image/:id`         | `GET`  |   Get a specific image                               |        |
+| `/buy/:id/:imageid`  | `GET`  |   Buy an image                                       |        |
+| `/image`             | `GET`  |   Get all Images.                                    |        |
+| `/user/:id`          | `GET`  |   Get user by ID                                     |        |
+| `/login`             | `POST` |   Send email and password and retrieve User.         |        | 
+| `/logout`            | `POST` |   Log out user from the session.                     |        |
+| `/user`              | `POST` |   Create new user                                    | User   |
+| `/user/:id`          | `POST` |   Add new Image to the user                          | Image  |
+| `/image/:id`         | `PUT`  |   Update a specific image                            | Image  |
+| `/image/:id`         |`DELETE`|   Delete a specific image                            |        |
+
 
 ## UI
 
